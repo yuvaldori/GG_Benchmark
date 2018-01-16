@@ -1,0 +1,3 @@
+Date: 2018/01/15 15:24:35
+Benchmark,Number of keys,Matched,Elapsed time(ms),
+Queries/getByKeys(),80000,80000,764,

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean class="org.apache.ignite.configuration.IgniteConfiguration">
+        <property name="cacheConfiguration">
+            <bean class="org.apache.ignite.configuration.CacheConfiguration">
+                <!-- Set a cache name. -->
+                <property name="name" value="MyPerson"/>
+
+                <!-- Set cache mode. -->
+                <property name="cacheMode" value="PARTITIONED"/>
+
+                <!-- Number of backup nodes. -->
+                <property name="backups" value="1"/>
+
+            </bean>
+        </property>
+        <!--property name="discoverySpi">
+            <bean class="org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi">
+                <property name="ipFinder">
+                    <bean class="org.apache.ignite.spi.discovery.tcp.ipfinder.multicast.TcpDiscoveryMulticastIpFinder">
+                        <property name="multicastGroup" value="192.168.32.201"/>
+                    </bean>
+                </property>
+            </bean>
+        </property-->
+        <!-- Redefining maximum memory size for the cluster node usage. -->
+        <property name="dataStorageConfiguration">
+            <bean class="org.apache.ignite.configuration.DataStorageConfiguration">
+                <property name="defaultDataRegionConfiguration">
+                    <bean class="org.apache.ignite.configuration.DataRegionConfiguration">
+                        <!-- Setting the size of the default region to 4GB. -->
+                        <property name="maxSize" value="#{4L * 1024 * 1024 * 1024}"/>
+
+                        <property name="persistenceEnabled" value="true"/>
+
+                        <!--
+                        Ignite periodically starts the checkpointing process that syncs dirty pages from memory to disk.
+                        This process happens in the background without affecting the application's logic.
+                        However, if a dirty page, scheduled for checkpointing, is updated before being written to disk,
+                        its previous state is copied to a special region called a checkpointing buffer.
+                        If the buffer gets overflowed, then the Ignite will stop processing all the updates until the checkpointing is over.
+                        As a result, the writes performance can drop to zero
+                        -->
+                        <!-- Increasing the buffer size to 1 GB. -->
+                        <property name="checkpointPageBufferSize" value="#{1024L * 1024 * 1024}"/>
+                    </bean>
+                </property>
+
+                <!-- Set the page size to 4 KB -->
+                <property name="pageSize" value="#{4 * 1024}"/>
+
+                <!--
+                    Sets a path to the root directory where data and indexes are
+                    to be persisted. It's assumed the directory is on a separated SSD.
+                -->
+                <!--property name="storagePath" value="/Users/yuval/GridGain/ignite/persistence"/-->
+                <property name="storagePath" value="/disk01"/>
+                <!--
+                   Sets a path to the directory where WAL is stored.
+                   It's assumed the directory is on a separated HDD.
+                -->
+                <!--property name="walPath" value="/Users/yuval/GridGain/ignite/wal"/-->
+                <property name="walPath" value="/disk02"/>
+
+                <!-- Enable write throttling. -->
+                <property name="writeThrottlingEnabled" value="true"/>
+
+            </bean>
+        </property>
+        <!-- The rest of the parameters. -->
+   </bean>
+</beans>
