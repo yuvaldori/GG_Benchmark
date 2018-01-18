@@ -40,15 +40,6 @@
 
             </bean>
         </property>
-        <!--property name="discoverySpi">
-            <bean class="org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi">
-                <property name="ipFinder">
-                    <bean class="org.apache.ignite.spi.discovery.tcp.ipfinder.multicast.TcpDiscoveryMulticastIpFinder">
-                        <property name="multicastGroup" value="192.168.32.201"/>
-                    </bean>
-                </property>
-            </bean>
-        </property-->
         <!-- Redefining maximum memory size for the cluster node usage. -->
         <property name="dataStorageConfiguration">
             <bean class="org.apache.ignite.configuration.DataStorageConfiguration">
@@ -72,6 +63,9 @@
                     </bean>
                 </property>
 
+                <!--property name="sysRegionInitSize" value="#{50 * 1024 * 1024}"/-->
+
+
                 <!-- Set the page size to 4 KB -->
                 <property name="pageSize" value="#{4 * 1024}"/>
 
@@ -79,14 +73,14 @@
                     Sets a path to the root directory where data and indexes are
                     to be persisted. It's assumed the directory is on a separated SSD.
                 -->
-                <!--property name="storagePath" value="/Users/yuval/GridGain/ignite/persistence"/-->
-                <property name="storagePath" value="/disk01"/>
+                <property name="storagePath" value="/Users/yuval/GridGain/ignite/persistence"/>
+                <!--property name="storagePath" value="/disk01"/-->
                 <!--
                    Sets a path to the directory where WAL is stored.
                    It's assumed the directory is on a separated HDD.
                 -->
-                <!--property name="walPath" value="/Users/yuval/GridGain/ignite/wal"/-->
-                <property name="walPath" value="/disk02"/>
+                <property name="walPath" value="/Users/yuval/GridGain/ignite/wal"/>
+                <!--property name="walPath" value="/disk02"/-->
 
                 <!-- Enable write throttling. -->
                 <property name="writeThrottlingEnabled" value="true"/>

@@ -17,7 +17,7 @@ public class BasicPutGetBenchmark {
     public void execute(){
 
         // Starting the node.
-        Ignite ignite = MyIgnite.getInstanceAndStart();
+        Ignite ignite = MyIgnite.start("client");
 
         IgniteCache<Integer, String> cache = ignite.getOrCreateCache("myCacheName");
 

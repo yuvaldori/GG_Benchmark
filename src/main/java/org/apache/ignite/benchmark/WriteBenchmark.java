@@ -18,12 +18,18 @@ import java.util.List;
 public class WriteBenchmark {
 
     public static long PERSONS_CNT = 80000;
+    public static IgniteCache<Long, MyPerson> cache;
+
+    public static void clearCache(){
+        System.out.println("Clearing the cache...");
+        cache.clear();
+    }
 
     public static void write() {
 
-        // Starting the node.
-        Ignite ignite = MyIgnite.getInstanceAndStart();
-        IgniteCache<Long, MyPerson> cache = ignite.getOrCreateCache("MyPerson");
+        // start client
+        Ignite ignite = MyIgnite.start("client");
+        cache = ignite.getOrCreateCache("MyPerson");
 
         Affinity aff = ignite.affinity("MyPerson");
 
@@ -35,8 +41,8 @@ public class WriteBenchmark {
             myPerson.setSalary(personId*10);
 
             try {
-                //InputStream initialStream = new FileInputStream(new File("/Users/yuval/Workspace/GGvsGSbenchmark/src/main/resources/resume.txt"));
-                InputStream initialStream = new FileInputStream(new File("/home/xap/yuvald/resources/resume.txt"));
+                InputStream initialStream = new FileInputStream(new File("/Users/yuval/Workspace/GGvsGSbenchmark/src/main/resources/resume.txt"));
+                //InputStream initialStream = new FileInputStream(new File("/home/xap/yuvald/resources/resume.txt"));
                 byte[] buffer = new byte[initialStream.available()];
                 initialStream.read(buffer);
                 myPerson.setResume(initialStream.toString());
@@ -53,6 +59,9 @@ public class WriteBenchmark {
     }
 
     public static void main(String[] args){
+        WriteBenchmark.write();
+        WriteBenchmark.clearCache();
+
         Pair<String, String> operationPair = new Pair<String, String>("Operation", "Write");
         Pair<String, Long> ObjNumberPair = new Pair<String, Long>("Obj Number", PERSONS_CNT);
 
@@ -73,6 +82,8 @@ public class WriteBenchmark {
         String fileName = System.currentTimeMillis() + ".csv";
         CsvFileWriter csvFileWriter = new CsvFileWriter();
         csvFileWriter.writeCsvFile(fileName, results);
+
+
         System.exit(0);
     }
 }

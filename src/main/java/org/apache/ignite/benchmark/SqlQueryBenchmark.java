@@ -25,7 +25,7 @@ public class SqlQueryBenchmark {
      */
     public static long runSqlQuery() {
 
-        Ignite ignite = MyIgnite.getInstanceAndStart();
+        Ignite ignite = MyIgnite.start("client");
 
         IgniteCache<Long, MyPerson> cache = ignite.getOrCreateCache("PERSON");
 
@@ -54,7 +54,7 @@ public class SqlQueryBenchmark {
     SqlFieldsQuery accepts a standard SQL query as its constructor​ parameter and executes it.
      */
     public static long runSqlFieldsQueries(){
-        Ignite ignite = MyIgnite.getInstanceAndStart();
+        Ignite ignite = MyIgnite.start("client");
 
         IgniteCache<Long, MyPerson> cache = ignite.getOrCreateCache("personCache");
         // Execute query to get names of all employees.

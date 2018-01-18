@@ -27,7 +27,7 @@ public class QueriesBenchmark {
      */
     public static long getByKeys(Set<Long> keys){
         // Starting the node.
-        Ignite ignite = MyIgnite.getInstanceAndStart();
+        Ignite ignite = MyIgnite.start("client");
                 IgniteCache<Long, MyPerson> cache = ignite.getOrCreateCache("MyPerson");
         Map<Long, MyPerson> personsMap = cache.getAll(keys);
         return personsMap.size();
@@ -44,7 +44,7 @@ public class QueriesBenchmark {
     public static long scanQuery(){
 
         // Starting the node.
-        Ignite ignite = MyIgnite.getInstanceAndStart();
+        Ignite ignite = MyIgnite.start("client");
         IgniteCache<Long, MyPerson> cache = ignite.getOrCreateCache("MyPerson");
 
         List<Long> keys = cache.query(new ScanQuery<Long, MyPerson>(
@@ -61,7 +61,8 @@ public class QueriesBenchmark {
     public static long testQueries(){
 
         // Starting the node.
-        Ignite ignite = MyIgnite.getInstanceAndStart();
+        Ignite ignite = MyIgnite.start("client");
+
         IgniteCache<Long, MyPerson> cache = ignite.getOrCreateCache("MyPerson");
 
         // Query for all people with "Master Degree" in their resumes.

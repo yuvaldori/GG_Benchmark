@@ -1,3 +1,4 @@
+
 Terms
 =====
 Write-Ahead Log (WAL) = redo log
@@ -32,5 +33,6 @@ docs links
 https://apacheignite.readme.io/docs/primary-and-backup-copies#section-configuring-backups
 https://apacheignite.readme.io/v1.1/docs/off-heap-memory
 https://apacheignite.readme.io/docs/durable-memory-tuning
+https://apacheignite.readme.io/docs/clients-vs-servers
 
 

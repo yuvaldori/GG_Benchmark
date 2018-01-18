@@ -19,8 +19,8 @@ public class CsvFileWriter {
         FileWriter fileWriter = null;
 
         try {
-            //String filePath = "/Users/yuval/Workspace/GGvsGSbenchmark/results/";
-            String filePath = "/home/xap/yuvald/results/";
+            String filePath = "/Users/yuval/Workspace/GGvsGSbenchmark/results/";
+            //String filePath = "/home/xap/yuvald/results/";
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
             fileWriter = new FileWriter(filePath+fileName);

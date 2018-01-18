@@ -19,7 +19,7 @@ public class MySQLApp {
 
     public static void initConnection(){
         // Starting the node.
-        Ignite ignite = MyIgnite.getInstanceAndStart();
+        Ignite ignite = MyIgnite.start("client");
 
         try {
             // Register JDBC driver.
