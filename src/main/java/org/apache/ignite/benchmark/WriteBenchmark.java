@@ -13,7 +13,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class WriteBenchmark {
 
@@ -25,13 +27,18 @@ public class WriteBenchmark {
         cache.clear();
     }
 
-    public static void write() {
+    public static void write(Map<Long, MyPerson> personsMap) {
+        System.out.println("Start writing...");
+        cache.putAll(personsMap);
+        System.out.println("writing has been finished ");
+    }
 
+    public static Map<Long, MyPerson> buildData(){
         // start client
         Ignite ignite = MyIgnite.start("client");
         cache = ignite.getOrCreateCache("MyPerson");
-
         Affinity aff = ignite.affinity("MyPerson");
+        Map<Long, MyPerson> personsMap = new HashMap<Long, MyPerson>();
 
         for (long personId = 0; personId < PERSONS_CNT; personId++) {
             // Get partition ID for the key under which myPerson is stored in cache.
@@ -51,24 +58,27 @@ public class WriteBenchmark {
                 System.out.println(e);
             }
 
-            //myPerson.setPartitionId(partId);
-            // Fill other fields.
-
-            cache.put(personId, myPerson);
+            personsMap.put(personId, myPerson);
         }
+
+        return personsMap;
     }
 
     public static void main(String[] args){
-        WriteBenchmark.write();
+
+        // Build data
+        Map personsMap = WriteBenchmark.buildData();
+
+        // Write and clear for Warm Up
+        WriteBenchmark.write(personsMap);
         WriteBenchmark.clearCache();
 
+        // Start measure the Write operation
         Pair<String, String> operationPair = new Pair<String, String>("Operation", "Write");
         Pair<String, Long> ObjNumberPair = new Pair<String, Long>("Obj Number", PERSONS_CNT);
-
         Long start = System.currentTimeMillis();
-
-        // do write
-        WriteBenchmark.write();
+        // Do write
+        WriteBenchmark.write(personsMap);
 
         Long end = System.currentTimeMillis();
         Long elapsedTime = end - start;

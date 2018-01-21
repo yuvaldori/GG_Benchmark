@@ -41,6 +41,7 @@
             </bean>
         </property>
         <!-- Redefining maximum memory size for the cluster node usage. -->
+
         <property name="dataStorageConfiguration">
             <bean class="org.apache.ignite.configuration.DataStorageConfiguration">
                 <property name="defaultDataRegionConfiguration">

@@ -78,7 +78,7 @@ public class SqlQueryBenchmark {
     }
 
     public static void main(String[] args){
-        WriteBenchmark.write();
+        //WriteBenchmark.write();
 
         Long start = System.currentTimeMillis();
         long matched = SqlQueryBenchmark.runSqlQuery();

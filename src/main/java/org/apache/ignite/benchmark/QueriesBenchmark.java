@@ -25,12 +25,13 @@ public class QueriesBenchmark {
        Asynchronously gets a collection of entries from the {@link Cache}, returning them as
        {@link Map} of the values associated with the set of keys requested.
      */
-    public static long getByKeys(Set<Long> keys){
+    public static Map<Long, MyPerson> getByKeys(Set<Long> keys){
         // Starting the node.
         Ignite ignite = MyIgnite.start("client");
                 IgniteCache<Long, MyPerson> cache = ignite.getOrCreateCache("MyPerson");
         Map<Long, MyPerson> personsMap = cache.getAll(keys);
-        return personsMap.size();
+
+        return personsMap;
     }
 
     /*
@@ -41,7 +42,7 @@ public class QueriesBenchmark {
      * Example below shows how to fetch only keys and do not send value objects at all.
      * Get only keys for persons earning more than 1,000.
      */
-    public static long scanQuery(){
+    public static List<Long> scanQuery(){
 
         // Starting the node.
         Ignite ignite = MyIgnite.start("client");
@@ -52,7 +53,7 @@ public class QueriesBenchmark {
                 Cache.Entry::getKey              // Transformer.
         ).getAll();
 
-        return keys.size();
+        return keys;
     }
 
     /*
@@ -88,45 +89,44 @@ public class QueriesBenchmark {
     public static void main(String[] args){
 
         /*
-        1) WRITE
-         */
-        Pair<String, String> operationPair1 = new Pair<String, String>("Operation", "Write");
-        Pair<String, Long> ObjNumberPair1 = new Pair<String, Long>("Obj Number", WriteBenchmark.PERSONS_CNT);
-
-        Long start = System.currentTimeMillis();
-
-        WriteBenchmark.write();
-
-        Long end = System.currentTimeMillis();
-        Long elapsedTime = end - start;
-        Pair<String, Long> elapsedTimePair1 = new Pair<String, Long>("Elapsed Time", elapsedTime);
-
-        List<Pair> results = new ArrayList<Pair>();
-        results.add(operationPair1);
-        results.add(ObjNumberPair1);
-        results.add(elapsedTimePair1);
-
-        String fileName1 = System.currentTimeMillis() + ".csv";
-        CsvFileWriter csvFileWriter1 = new CsvFileWriter();
-        csvFileWriter1.writeCsvFile(fileName1, results);
-
-
-        /*
         2) COUNT KEYS
          */
-        Set<Long> keys = new HashSet<Long>();
-        for (long i=0; i<WriteBenchmark.PERSONS_CNT; i++){
-            keys.add(i);
+        Set<Long> keys1 = new HashSet<Long>();
+        for (long i=1000; i<2000; i++){
+            keys1.add(i);
+        }
+        Set<Long> keys2 = new HashSet<Long>();
+        for (long i=2000; i<3000; i++){
+            keys2.add(i);
+        }
+        Set<Long> keys3 = new HashSet<Long>();
+        for (long i=3000; i<4000; i++){
+            keys3.add(i);
+        }
+        Set<Long> keys4 = new HashSet<Long>();
+        for (long i=4000; i<5000; i++){
+            keys4.add(i);
+        }
+        Set<Long> keys5 = new HashSet<Long>();
+        for (long i=5000; i<6000; i++){
+            keys5.add(i);
         }
 
         Long start2 = System.currentTimeMillis();
-        long matched2 = QueriesBenchmark.getByKeys(keys);
+        Map<Long, MyPerson> persons1 = QueriesBenchmark.getByKeys(keys1);
+        Map<Long, MyPerson> persons2 = QueriesBenchmark.getByKeys(keys2);
+        Map<Long, MyPerson> persons3 = QueriesBenchmark.getByKeys(keys3);
+        Map<Long, MyPerson> persons4 = QueriesBenchmark.getByKeys(keys4);
+        Map<Long, MyPerson> persons5 = QueriesBenchmark.getByKeys(keys5);
+
+        Long totalMached = new Long(persons1.size() + persons2.size() + persons3.size() + persons4.size() + persons5.size());
+
         Long end2 = System.currentTimeMillis();
         Long elapsedTime2 = end2 - start2;
 
         Pair<String, String> benchmarkPair2 = new Pair<String, String>("Benchmark", "Queries/getByKeys()");
         Pair<String, Long> keysPair2 = new Pair<String, Long>("Number of keys", WriteBenchmark.PERSONS_CNT);
-        Pair<String, Long> matchedPair2 = new Pair<String, Long>("Matched", matched2);
+        Pair<String, Long> matchedPair2 = new Pair<String, Long>("Matched",totalMached);
         Pair<String, Long> elapsedTimePair2 = new Pair<String, Long>("Elapsed time(ms)", elapsedTime2);
 
         List<Pair> results2 = new ArrayList<Pair>();
@@ -144,13 +144,13 @@ public class QueriesBenchmark {
         3) COUNT WHERE SALARY > 1000
          */
         Long start3 = System.currentTimeMillis();
-        long matched3 = QueriesBenchmark.scanQuery();
+        List<Long> keysList = QueriesBenchmark.scanQuery();
         Long end3 = System.currentTimeMillis();
         Long elapsedTime1 = end3 - start3;
 
         Pair<String, String> benchmarkPair3 = new Pair<String, String>("Benchmark", "Queries/scanQuery()");
         Pair<String, Long> keysPair3 = new Pair<String, Long>("Number of persons", WriteBenchmark.PERSONS_CNT);
-        Pair<String, Long> matchedPair3 = new Pair<String, Long>("Matched", matched3);
+        Pair<String, Long> matchedPair3 = new Pair<String, Long>("Matched", new Long(keysList.size()));
         Pair<String, Long> elapsedTimePair3 = new Pair<String, Long>("Elapsed time(ms)", elapsedTime1);
 
         List<Pair> results3 = new ArrayList<Pair>();
