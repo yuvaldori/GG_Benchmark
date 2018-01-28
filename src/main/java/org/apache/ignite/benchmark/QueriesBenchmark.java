@@ -96,7 +96,7 @@ public class QueriesBenchmark {
             keys1.add(i);
         }
         Set<Long> keys2 = new HashSet<Long>();
-        for (long i=2000; i<3000; i++){
+        for (long i=9000000; i<9001000; i++){
             keys2.add(i);
         }
         Set<Long> keys3 = new HashSet<Long>();
@@ -104,7 +104,7 @@ public class QueriesBenchmark {
             keys3.add(i);
         }
         Set<Long> keys4 = new HashSet<Long>();
-        for (long i=4000; i<5000; i++){
+        for (long i=9003000; i<9004000; i++){
             keys4.add(i);
         }
         Set<Long> keys5 = new HashSet<Long>();
@@ -125,7 +125,7 @@ public class QueriesBenchmark {
         Long elapsedTime2 = end2 - start2;
 
         Pair<String, String> benchmarkPair2 = new Pair<String, String>("Benchmark", "Queries/getByKeys()");
-        Pair<String, Long> keysPair2 = new Pair<String, Long>("Number of keys", WriteBenchmark.PERSONS_CNT);
+        Pair<String, Long> keysPair2 = new Pair<String, Long>("Number of keys", 8000000L);
         Pair<String, Long> matchedPair2 = new Pair<String, Long>("Matched",totalMached);
         Pair<String, Long> elapsedTimePair2 = new Pair<String, Long>("Elapsed time(ms)", elapsedTime2);
 
@@ -149,7 +149,7 @@ public class QueriesBenchmark {
         Long elapsedTime1 = end3 - start3;
 
         Pair<String, String> benchmarkPair3 = new Pair<String, String>("Benchmark", "Queries/scanQuery()");
-        Pair<String, Long> keysPair3 = new Pair<String, Long>("Number of persons", WriteBenchmark.PERSONS_CNT);
+        Pair<String, Long> keysPair3 = new Pair<String, Long>("Number of persons", 8000000L);
         Pair<String, Long> matchedPair3 = new Pair<String, Long>("Matched", new Long(keysList.size()));
         Pair<String, Long> elapsedTimePair3 = new Pair<String, Long>("Elapsed time(ms)", elapsedTime1);
 

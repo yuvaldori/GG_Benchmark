@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class WriteBenchmark {
 
-    public static long PERSONS_CNT = 80000;
+    //public static long PERSONS_CNT = 8000000;
     public static IgniteCache<Long, MyPerson> cache;
 
     public static void clearCache(){
@@ -33,14 +33,14 @@ public class WriteBenchmark {
         System.out.println("writing has been finished ");
     }
 
-    public static Map<Long, MyPerson> buildData(){
+    public static Map<Long, MyPerson> buildData(long startKey, long endKey){
         // start client
         Ignite ignite = MyIgnite.start("client");
         cache = ignite.getOrCreateCache("MyPerson");
         Affinity aff = ignite.affinity("MyPerson");
         Map<Long, MyPerson> personsMap = new HashMap<Long, MyPerson>();
 
-        for (long personId = 0; personId < PERSONS_CNT; personId++) {
+        for (long personId = startKey; personId < endKey; personId++) {
             // Get partition ID for the key under which myPerson is stored in cache.
             long partId = aff.partition(personId);
 
@@ -48,8 +48,8 @@ public class WriteBenchmark {
             myPerson.setSalary(personId*10);
 
             try {
-                InputStream initialStream = new FileInputStream(new File("/Users/yuval/Workspace/GGvsGSbenchmark/src/main/resources/resume.txt"));
-                //InputStream initialStream = new FileInputStream(new File("/home/xap/yuvald/resources/resume.txt"));
+                //InputStream initialStream = new FileInputStream(new File("/Users/yuval/Workspace/GGvsGSbenchmark/src/main/resources/resume.txt"));
+                InputStream initialStream = new FileInputStream(new File("/home/xap/yuvald/resources/resume.txt"));
                 byte[] buffer = new byte[initialStream.available()];
                 initialStream.read(buffer);
                 myPerson.setResume(initialStream.toString());
@@ -67,7 +67,7 @@ public class WriteBenchmark {
     public static void main(String[] args){
 
         // Build data
-        Map personsMap = WriteBenchmark.buildData();
+        Map personsMap = WriteBenchmark.buildData(0L, 8000000L);
 
         // Write and clear for Warm Up
         WriteBenchmark.write(personsMap);
@@ -75,7 +75,7 @@ public class WriteBenchmark {
 
         // Start measure the Write operation
         Pair<String, String> operationPair = new Pair<String, String>("Operation", "Write");
-        Pair<String, Long> ObjNumberPair = new Pair<String, Long>("Obj Number", PERSONS_CNT);
+        Pair<String, Long> ObjNumberPair = new Pair<String, Long>("Obj Number", 8000000L);
         Long start = System.currentTimeMillis();
         // Do write
         WriteBenchmark.write(personsMap);
