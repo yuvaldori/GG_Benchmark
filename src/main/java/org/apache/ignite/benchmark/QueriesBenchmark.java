@@ -73,10 +73,6 @@ public class QueriesBenchmark {
 
         try {
             masters = cache.query(txt);
-
-//            for (Map.Entry<Long, MyPerson> e : masters)
-//                System.out.println(e.getValue().toString());
-//            }
         }catch(Exception e){
             System.out.println(e);
         }
@@ -125,7 +121,7 @@ public class QueriesBenchmark {
         Long elapsedTime2 = end2 - start2;
 
         Pair<String, String> benchmarkPair2 = new Pair<String, String>("Benchmark", "Queries/getByKeys()");
-        Pair<String, Long> keysPair2 = new Pair<String, Long>("Number of keys", 8000000L);
+        Pair<String, Long> keysPair2 = new Pair<String, Long>("Number of keys", 5000L);
         Pair<String, Long> matchedPair2 = new Pair<String, Long>("Matched",totalMached);
         Pair<String, Long> elapsedTimePair2 = new Pair<String, Long>("Elapsed time(ms)", elapsedTime2);
 
@@ -135,7 +131,7 @@ public class QueriesBenchmark {
         results2.add(matchedPair2);
         results2.add(elapsedTimePair2);
 
-        String fileName2 = System.currentTimeMillis() + ".csv";
+        String fileName2 = "GG" + System.currentTimeMillis() + ".csv";
         CsvFileWriter csvFileWriter2 = new CsvFileWriter();
         csvFileWriter2.writeCsvFile(fileName2, results2);
 
@@ -149,7 +145,7 @@ public class QueriesBenchmark {
         Long elapsedTime1 = end3 - start3;
 
         Pair<String, String> benchmarkPair3 = new Pair<String, String>("Benchmark", "Queries/scanQuery()");
-        Pair<String, Long> keysPair3 = new Pair<String, Long>("Number of persons", 8000000L);
+        Pair<String, Long> keysPair3 = new Pair<String, Long>("Number of persons", 5000L);
         Pair<String, Long> matchedPair3 = new Pair<String, Long>("Matched", new Long(keysList.size()));
         Pair<String, Long> elapsedTimePair3 = new Pair<String, Long>("Elapsed time(ms)", elapsedTime1);
 
@@ -159,7 +155,7 @@ public class QueriesBenchmark {
         results3.add(matchedPair3);
         results3.add(elapsedTimePair3);
 
-        String fileName3 = System.currentTimeMillis() + ".csv";
+        String fileName3 = "GG" + System.currentTimeMillis() + ".csv";
         CsvFileWriter csvFileWriter3 = new CsvFileWriter();
         csvFileWriter3.writeCsvFile(fileName3, results3);
         System.exit(0);

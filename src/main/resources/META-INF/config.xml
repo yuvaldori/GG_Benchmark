@@ -37,7 +37,6 @@
 
                 <!-- Number of backup nodes. -->
                 <property name="backups" value="1"/>
-
             </bean>
         </property>
         <!-- Redefining maximum memory size for the cluster node usage. -->

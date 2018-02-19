@@ -27,7 +27,7 @@ public class SqlQueryBenchmark {
 
         Ignite ignite = MyIgnite.start("client");
 
-        IgniteCache<Long, MyPerson> cache = ignite.getOrCreateCache("PERSON");
+        IgniteCache<Long, MyPerson> cache = ignite.getOrCreateCache("MyPerson");
 
         SqlQuery sql = new SqlQuery(MyPerson.class, "salary > ?");
 
@@ -40,6 +40,7 @@ public class SqlQueryBenchmark {
 //            }
         } catch (Exception e) {
             System.out.println(e);
+            System.exit(1);
         }
 
         if (cursor != null)
@@ -56,7 +57,7 @@ public class SqlQueryBenchmark {
     public static long runSqlFieldsQueries(){
         Ignite ignite = MyIgnite.start("client");
 
-        IgniteCache<Long, MyPerson> cache = ignite.getOrCreateCache("personCache");
+        IgniteCache<Long, MyPerson> cache = ignite.getOrCreateCache("MyPerson");
         // Execute query to get names of all employees.
         SqlFieldsQuery sql = new SqlFieldsQuery(
                 "select concat(firstName, ' ', lastName) from MyPerson");
@@ -78,7 +79,6 @@ public class SqlQueryBenchmark {
     }
 
     public static void main(String[] args){
-        //WriteBenchmark.write();
 
         Long start = System.currentTimeMillis();
         long matched = SqlQueryBenchmark.runSqlQuery();

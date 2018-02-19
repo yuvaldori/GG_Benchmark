@@ -49,7 +49,7 @@ public class WriteBenchmark {
 
             try {
                 //InputStream initialStream = new FileInputStream(new File("/Users/yuval/Workspace/GGvsGSbenchmark/src/main/resources/resume.txt"));
-                InputStream initialStream = new FileInputStream(new File("/home/xap/yuvald/resources/resume.txt"));
+                InputStream initialStream = new FileInputStream(new File("/Users/yuval/Workspace/GGvsGSbenchmark/src/main/resources/resume.txt"));
                 byte[] buffer = new byte[initialStream.available()];
                 initialStream.read(buffer);
                 myPerson.setResume(initialStream.toString());
@@ -65,9 +65,10 @@ public class WriteBenchmark {
     }
 
     public static void main(String[] args){
+        long objNumber = 10000L;
 
         // Build data
-        Map personsMap = WriteBenchmark.buildData(0L, 8000000L);
+        Map personsMap = WriteBenchmark.buildData(0L, objNumber);
 
         // Write and clear for Warm Up
         WriteBenchmark.write(personsMap);
@@ -75,21 +76,21 @@ public class WriteBenchmark {
 
         // Start measure the Write operation
         Pair<String, String> operationPair = new Pair<String, String>("Operation", "Write");
-        Pair<String, Long> ObjNumberPair = new Pair<String, Long>("Obj Number", 8000000L);
+        Pair<String, Long> ObjNumberPair = new Pair<String, Long>("Obj Number", objNumber);
         Long start = System.currentTimeMillis();
         // Do write
         WriteBenchmark.write(personsMap);
 
         Long end = System.currentTimeMillis();
         Long elapsedTime = end - start;
-        Pair<String, Long> elapsedTimePair = new Pair<String, Long>("Elapsed Time", elapsedTime);
+        Pair<String, Long> elapsedTimePair = new Pair<String, Long>("Elapsed Time(ms)", elapsedTime);
 
         List<Pair> results = new ArrayList<Pair>();
         results.add(operationPair);
         results.add(ObjNumberPair);
         results.add(elapsedTimePair);
 
-        String fileName = System.currentTimeMillis() + ".csv";
+        String fileName = "GG" + System.currentTimeMillis() + ".csv";
         CsvFileWriter csvFileWriter = new CsvFileWriter();
         csvFileWriter.writeCsvFile(fileName, results);
 

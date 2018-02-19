@@ -13,27 +13,27 @@ public class Multithredingbenchmark {
 
     public static void main(String[] args){
 
-        Map<Long, MyPerson> personMap1 = DataBuilder.buildData(0L,10000L);
+        Map<Long, MyPerson> personMap1 = DataBuilder.buildData(0L,100000L);
         WriteThread writeThread1 = new WriteThread(personMap1);
-        Map<Long, MyPerson> personMap2 = DataBuilder.buildData(20000L,30000L);
+        Map<Long, MyPerson> personMap2 = DataBuilder.buildData(200000L,300000L);
         WriteThread writeThread2 = new WriteThread(personMap2);
-        Map<Long, MyPerson> personMap3 = DataBuilder.buildData(40000L,60000L);
+        Map<Long, MyPerson> personMap3 = DataBuilder.buildData(400000L,600000L);
         WriteThread writeThread3 = new WriteThread(personMap3);
-        Map<Long, MyPerson> personMap4 = DataBuilder.buildData(70000L,80000L);
+        Map<Long, MyPerson> personMap4 = DataBuilder.buildData(700000L,800000L);
         WriteThread writeThread4 = new WriteThread(personMap4);
 
-        Set<Long> keys1 = DataBuilder.buildKeys(0L,10000L); //exist
+        Set<Long> keys1 = DataBuilder.buildKeys(0L,100000L); //exist
         ReadThread readThread1 = new ReadThread(keys1);
-        Set<Long> keys2 = DataBuilder.buildKeys(10000L,20000L); //not exist
+        Set<Long> keys2 = DataBuilder.buildKeys(100000L,200000L); //not exist
         ReadThread readThread2 = new ReadThread(keys2);
-        Set<Long> keys3= DataBuilder.buildKeys(25000L,35000L); // half exist and half not
+        Set<Long> keys3= DataBuilder.buildKeys(250000L,350000L); // half exist and half not
         ReadThread readThread3 = new ReadThread(keys3);
-        Set<Long> keys4 = DataBuilder.buildKeys(40000L,50000L);
+        Set<Long> keys4 = DataBuilder.buildKeys(400000L,500000L);
         ReadThread readThread4 = new ReadThread(keys4);
 
 
         Pair<String, String> operationPair = new Pair<String, String>("Operation", "Multithreding Write Read");
-        Pair<String, Long> ObjNumberPair = new Pair<String, Long>("Obj Number", 100L);
+        Pair<String, Long> ObjNumberPair = new Pair<String, Long>("Obj Number", 500000L);
         Long start = System.currentTimeMillis();
 
         writeThread1.start();
@@ -73,6 +73,5 @@ public class Multithredingbenchmark {
         String fileName = System.currentTimeMillis() + ".csv";
         CsvFileWriter csvFileWriter = new CsvFileWriter();
         csvFileWriter.writeCsvFile(fileName, results);
-
     }
 }

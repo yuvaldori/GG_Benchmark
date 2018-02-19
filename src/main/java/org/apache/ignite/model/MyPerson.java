@@ -6,17 +6,17 @@ import org.apache.ignite.cache.query.annotations.QueryTextField;
 import java.io.Serializable;
 
 public class MyPerson implements Serializable {
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
     /** MyPerson ID (indexed). */
     @QuerySqlField(index = true)
-    private long id;
+    private Long id;
 
     /** Organization ID (indexed). */
     @QuerySqlField(index = true)
-    private long orgId;
+    private Long orgId;
 
     /** First name (not-indexed). */
     @QuerySqlField
@@ -34,7 +34,7 @@ public class MyPerson implements Serializable {
     @QueryTextField
     private String resume;
 
-    public MyPerson(long id){
+    public MyPerson(Long id){
         this.id = id;
     }
 
